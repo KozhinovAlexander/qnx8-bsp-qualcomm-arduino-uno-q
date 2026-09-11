@@ -1,0 +1,5 @@
+ifs-*.bin
+ifs-*.raw
+startup-*.sym
+startup-*
+startup-*-go.build
