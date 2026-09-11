@@ -1,0 +1,4 @@
+[submodule "qdl"]
+	path = qdl
+	url = https://github.com/linux-msm/qdl.git
+	branch = master
