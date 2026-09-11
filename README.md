@@ -31,6 +31,23 @@ Leave `USB_BOOT` and `GND` pins free now to boot the board normal way.
 After flashing the target the bootable partition with linux image is empty. This is intended.
 The board shall boot into U-Boot now. Following U-Boot environment settings shall be done now:
 
+## Loading Image to RAM and booting it
+
+Configure U-Boot environment first:
+
+```bash
+# setenv ifs_file ifs-qrb2210-arduino-imola.bin
+setenv ifs_part 43
+# fdt file is located at partition 0x43 (efi)
+# setenv fdtfile qcom/qrb2210-arduino-imola.dtb
+setenv loaddtb 'fatload mmc 0:${ifs_part} ${fdt_addr_r} ${fdtfile}'
+# setenv loadifs 'fatload mmc 0:${ifs_part} ${kernel_addr_r} ${ifs_file}'
+# setenv bootifs 'run loaddtb; run loadifs; go ${kernel_addr_r} ${fdt_addr_r}'
+# setenv loadtftp 'tftp ${kernel_addr_r} ${ifs_file}'
+# setenv boottftp 'run loaddtb; run loadtftp; go ${kernel_addr_r} ${fdt_addr_r}'
+setenv fastboot_bootcmd 'run loaddtb; fdt addr ${fdt_addr_r}; bootm ${fastboot_addr_r} ${fastboot_addr_r} ${fdt_addr_r}'
+```
+
 ```bash
 run fastboot
 ```
@@ -43,20 +60,11 @@ Run on your host machine:
 fastboot devices
 ```
 
-Following section is TBD:
+Use fastboot command on the host to load image into RAM:
 
 ```bash
-setenv ifs_file ifs-qrb2210-arduino-imola.bin
-setenv ifs_part 43
-# fdt file is located at partition 0x43 (efi)
-# setenv fdtfile qcom/qrb2210-arduino-imola.dtb
-setenv loaddtb 'fatload mmc 0:${ifs_part} ${fdt_addr_r} ${fdtfile}'
-setenv loadifs 'fatload mmc 0:${ifs_part} ${kernel_addr_r} ${ifs_file}'
-setenv bootifs 'run loaddtb; run loadifs; go ${kernel_addr_r} ${fdt_addr_r}'
-setenv loadtftp 'tftp ${kernel_addr_r} ${ifs_file}'
-setenv boottftp 'run loaddtb; run loadtftp; go ${kernel_addr_r} ${fdt_addr_r}'
+fastboot boot /srv/tftp/ifs-qrb2210-arduino-imola.bin
 ```
-
 
 ## Creating latest Bootloader
 
