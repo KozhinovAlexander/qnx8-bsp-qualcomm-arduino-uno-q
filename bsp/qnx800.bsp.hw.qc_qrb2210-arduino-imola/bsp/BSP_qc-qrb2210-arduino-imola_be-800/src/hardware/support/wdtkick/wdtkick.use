@@ -1,0 +1,13 @@
+%C Watchdog Timer Module
+
+Syntax:
+    wdtkick [options ...]
+
+    Watchdog options can be defined in the command line or stored in hwinfo section of
+    the syspage via startup
+
+Options:
+ -i addr                    WDT OPTEE SMC id (default: 0xbc000000)
+ -p priority                Thread priority (default 10)
+ -t time                    Set kick time in ms
+ -v                         Enable verbosity

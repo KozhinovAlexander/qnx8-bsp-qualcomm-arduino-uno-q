@@ -11,7 +11,7 @@
 - Execute following make targets:
 
 ```bash
-make git_submodules_configure install_dependencies setup_host_tftp_server qdl unoq_linux_download
+make git_submodules_configure install_dependencies qdl
 ```
 
 ## Flashing
@@ -48,8 +48,19 @@ setenv loaddtb 'fatload mmc 0:${ifs_part} ${fdt_addr_r} ${fdtfile}'
 setenv fastboot_bootcmd 'run loaddtb; fdt addr ${fdt_addr_r}; bootm ${fastboot_addr_r} ${fastboot_addr_r} ${fdt_addr_r}'
 ```
 
+after that run fastboot in uboot
+
 ```bash
 run fastboot
+```
+
+or all in one line:
+
+```bash
+setenv doall ' \
+setenv ifs_part 43; \
+setenv loaddtb "fatload mmc 0:${ifs_part} ${fdt_addr_r} ${fdtfile}"; \
+setenv fastboot_bootcmd "run loaddtb; fdt addr ${fdt_addr_r}; bootm ${fastboot_addr_r} ${fastboot_addr_r} ${fdt_addr_r}"; run fastboot'
 ```
 
 ***NOTE:** Ensure now `Google usb download gadget` appears in your system
@@ -63,7 +74,7 @@ fastboot devices
 Use fastboot command on the host to load image into RAM:
 
 ```bash
-fastboot boot /srv/tftp/ifs-qrb2210-arduino-imola.bin
+fastboot boot /srv/tftp/ifs-qrb2210-arduino-imola.raw
 ```
 
 ## Creating latest Bootloader

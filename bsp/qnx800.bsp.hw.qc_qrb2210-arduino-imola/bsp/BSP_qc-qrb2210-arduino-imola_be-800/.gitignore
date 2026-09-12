@@ -1,0 +1,13 @@
+install
+procnto-smp-instr.sym
+*.pinfo
+*.o
+*.a
+*.dep
+*.def
+*.map
+devb-sdmmc-qrb2210
+spi-dwc
+i2c-dwc-qrb2210
+devc-ser-qrb2210
+prebuilt
